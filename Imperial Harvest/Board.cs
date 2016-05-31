@@ -17,9 +17,40 @@ namespace Imperial_Harvest
 {
     class Board
     {
+        /* 
+        Squares
+            0 = water
+            1 = floor
+        Borders
+            0 = water adjacent (no hedge)
+            2 = blank border
+            3 = hedge
+        Diagonals
+            1 = X traversible
+            4 = ╱ traversible
+            5 = ╲ traversible
+            6 = intraversible
+        */
+        public int[,] board = new int[21,21];
+        static private int[,,] longDef= new int[5,7,16];
+        static private int[,,] sqrDef = new int[5,5,8];
         private Random rng = new Random();
-
         private int rot;
+        static Board()
+        {
+            for (int z = 0; z < 16; z++)
+            {
+                for (int y = 1; y < 7; y += 2)
+                {
+                    for (int x = 1; x < 5; x += 2)
+                    {
+                        longDef[x, y, z] = 1;
+                        if (z < 8 && y < 5)
+                            sqrDef[x, y, z] = 1;
+                    }
+                }
+            }
+        }
         public List<Image> Random()
         {
             Queue<string> longs = new Queue<string>();
@@ -120,5 +151,6 @@ namespace Imperial_Harvest
             }
             return tileL;
         }
+
     }
 }
